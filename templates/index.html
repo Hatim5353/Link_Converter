@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedIn Coupon Link Converter</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #eef2f7;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 18px; /* Bigger default font */
+        }
+
+        .container-box {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+            margin-top: 30px;
+        }
+
+        textarea {
+            border-radius: 14px !important;
+            font-size: 17px !important;
+            padding: 15px !important;
+            resize: vertical;
+            min-height: 180px;
+        }
+
+        .heading {
+            font-weight: 700;
+            font-size: 28px;
+            text-align: center;
+            color: #232427;
+        }
+
+        .btn-custom {
+            border-radius: 12px !important;
+            padding: 12px 20px !important;
+            font-size: 17px !important;
+            width: 100%;
+        }
+
+        .output-box {
+            background: #f1f4f8;
+            border-radius: 12px;
+            padding: 18px;
+            white-space: pre-wrap;
+            font-size: 17px;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #707070;
+            font-size: 15px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 576px) {
+            .container-box {
+                padding: 25px;
+            }
+            .heading {
+                font-size: 24px;
+            }
+            textarea {
+                min-height: 150px;
+                font-size: 16px !important;
+            }
+            .btn-custom {
+                font-size: 16px !important;
+            }
+            .output-box {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="container-box">
+
+        <h2 class="heading mb-4">LinkedIn Coupon Link Converter</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="mb-4">
+
+            <!-- Text input -->
+            <label class="fw-semibold mb-2">Paste Links (any format)</label>
+            <textarea name="links" class="form-control mb-4" placeholder="Paste your LinkedIn coupon links here..."></textarea>
+
+            <!-- File upload -->
+            <label class="fw-semibold mb-2">Upload TXT File</label>
+            <input type="file" name="file" accept=".txt" class="form-control mb-4">
+
+            <!-- Mode selection -->
+            <label class="fw-semibold mb-2">Choose Conversion Type</label>
+
+<div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="mode" value="career" id="careerOption" required>
+    <label class="form-check-label" for="careerOption">Career Plan</label>
+</div>
+
+<div class="form-check mb-3">
+    <input class="form-check-input" type="radio" name="mode" value="business" id="businessOption">
+    <label class="form-check-label" for="businessOption">Business / Professional Plan</label>
+</div>
+            <!-- Button layout (mobile friendly) -->
+            <div class="row g-3 mt-2">
+                <div class="col-12 col-md-4">
+                    <button type="submit" name="convert" class="btn btn-primary btn-custom">Convert</button>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <button type="submit" name="download" formnovalidate class="btn btn-success btn-custom">
+                        Download TXT
+                    </button>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <button type="submit" name="clear" formnovalidate class="btn btn-secondary btn-custom">
+                        Clear Output
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Output box -->
+        {% if output_links %}
+<div class="mt-4">
+
+    <!-- Copy Button -->
+    <div class="text-end mb-2">
+        <button class="btn btn-dark btn-custom" onclick="copyOutput()">
+            📋 Copy to Clipboard
+        </button>
+    </div>
+
+    <!-- Output Box -->
+    <div class="output-box" id="outputBox">
+        <h5 class="fw-semibold mb-2">Converted Links:</h5>
+        {{ output_links|join('\n') }}
+    </div>
+
+</div>
+{% endif %}
+
+    </div>
+
+    <p class="footer-text">Designed for Mobile & Desktop • LinkedIn Link Converter</p>
+</div>
+
+</body>
+<script>
+function copyOutput() {
+    const text = document.getElementById("outputBox").innerText;
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            alert("Copied to clipboard!");
+        })
+        .catch(() => {
+            // fallback method for older browsers
+            const temp = document.createElement("textarea");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            document.body.removeChild(temp);
+            alert("Copied to clipboard!");
+        });
+}
+</script>
+
+</html>
